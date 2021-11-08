@@ -3,14 +3,12 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Button, Container, TextField, Typography } from "@mui/material";
 import login from "../../../images/login.png";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 
-const Login = () => {
+const Register = () => {
   const [loginData, setLoginData] = useState({});
-  const {loginUser, signInWithGoogle} = useAuth();
-
-  const location = useLocation();
+  const {registerUser} = useAuth();
   const history = useHistory();
 
   const handleonBlur = (e) => {
@@ -23,22 +21,26 @@ const Login = () => {
   };
 
   const handleOnSubmit = (e) => {
-    loginUser(loginData.email, loginData.password, location, history)
+      registerUser(loginData.email, loginData.password, loginData.name, history);
     e.preventDefault();
   };
-
-  const loginWithGoogle = () => {
-    signInWithGoogle(location, history)
-  }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Container>
         <Grid container spacing={2} sx={{ mt: 8 }}>
           <Grid item xs={12} md={6}>
             <Typography variant="h4" gutterBottom component="div">
-              Login
+              Register
             </Typography>
             <form onSubmit={handleOnSubmit}>
+              <TextField
+                sx={{ width: "75%" }}
+                id="standard-basic"
+                label="Your Name"
+                name="name"
+                onBlur={handleonBlur}
+                variant="standard"
+              />
               <TextField
                 sx={{ width: "75%" }}
                 id="standard-basic"
@@ -63,12 +65,11 @@ const Login = () => {
                 type="Submit"
                 variant="contained"
               >
-                Login
+                Register
               </Button>
-              <Link style={{ textDecoration: "none", display: 'block' }} to="/register">
-                <Button variant="text">New Here? Please Register</Button>
+              <Link style={{ textDecoration: "none" }} to="/login">
+                <Button variant="text">Already Registered? Please Login</Button>
               </Link>
-              <Button style={{ backgroundColor: "#37B5BB" }} onClick={loginWithGoogle} variant="contained">Google Sign In</Button>
             </form>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -80,4 +81,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
